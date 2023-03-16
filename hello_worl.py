@@ -1,22 +1,26 @@
 import unittest
 from pyunitreport import HTMLTestRunner
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service as EdgeService
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 class HelloWorld(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Edge(executable_path=r'msedgedriver')
-        driver = self.driver
+
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Edge(executable_path=r'msedgedriver')
+        driver = cls.driver
         driver.implicitly_wait(10)
 
     
     def test_hello_world(self):
         driver = self.driver
-        driver.get('http://www.platzi.com')
+        driver.get('https://www.platzi.com')
 
-    def tearDown(self):
-        self.driver.quit()
+    def test_visit_wikipedia(self):
+        self.driver.get('https://www.wikipedia.org')
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
 
 if __name__ == "__main__":
     unittest.main(verbosity=2, testRunner=HTMLTestRunner(output='reportes', report_name='hello-world-report'))
